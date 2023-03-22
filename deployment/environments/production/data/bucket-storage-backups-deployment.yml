@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bucket-storage-backups
+  namespace: data
+spec:
+  replicas: 0 # TODO: Turn back on later
+  selector:
+    matchLabels:
+      app: bucket-storage-backups
+  template:
+    metadata:
+      labels:
+        app: bucket-storage-backups
+    spec:
+      containers:
+        - image: dominiek/bucket-storage-backups
+          imagePullPolicy: Always
+          name: main
+          # resources:
+          #   limits:
+          #     cpu: "1000m"
+          #     memory: "4Gi"
+          env:
+            - name: SOURCE_GS_BUCKET
+              value: "beatlevic-production-uploads"
+            - name: DESTINATION_GS_BUCKET
+              value: "beatlevic-production-uploads-backup"

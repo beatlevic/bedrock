@@ -1,0 +1,20 @@
+{
+  "gcloud": {
+    "envName": "production",
+    "project": "beatlevic",
+    "bucketPrefix": "beatlevic-production",
+    "gcrPrefix": "",
+    "dropDeploymentPostfix": true,
+    "computeZone": "europe-west4-a",
+    "kubernetes": {
+      "clusterName": "cluster-1",
+      "nodePoolCount": 1,
+      "minNodeCount": 1,
+      "maxNodeCount": 3,
+      "machineType": "n2d-standard-2",
+      "preemptible": false
+    },
+    "label": "app",
+    "services": ["api", "web"]
+  }
+}

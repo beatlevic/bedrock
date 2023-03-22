@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-jobs
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-jobs
+  template:
+    metadata:
+      labels:
+        app: api-jobs
+    spec:
+      containers:
+        - image: gcr.io/beatlevic/bedrock-services-api-jobs
+          imagePullPolicy: Always
+          name: main
+          # resources:
+          #   limits:
+          #     cpu: "1000m"
+          #     memory: "4Gi"
+          command:
+            - /service/scripts/entrypoints/jobs.sh
+          args:
+            - /service/jobs/default.yml
+          env:
+            - name: ENV_NAME
+              value: "production"
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              value: "mongodb://mongo.data:27017/bedrock_production"
+            - name: POSTMARK_FROM
+              value: "no-reply@beatlevic.com"
+            - name: POSTMARK_API_KEY
+              value: ""

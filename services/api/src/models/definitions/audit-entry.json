@@ -1,0 +1,45 @@
+{
+  "attributes": {
+    "requestUrl": {
+      "type": "String",
+      "required": true
+    },
+    "requestMethod": {
+      "type": "String",
+      "required": true
+    },
+    "routeNormalizedPath": {
+      "type": "String"
+    },
+    "activity": {
+      "type": "String",
+      "required": true
+    },
+    "objectId": {
+      "type": "String"
+    },
+    "objectType": {
+      "type": "String"
+    },
+    "objectBefore": {
+      "type": "Object"
+    },
+    "objectAfter": {
+      "type": "Object"
+    },
+    "category": {
+      "type": "String",
+      "default": "default"
+    },
+    "user": {
+      "type": "ObjectId",
+      "ref": "User",
+      "required": true
+    }
+  },
+  "search": {
+    "fields": [
+      "objectId"
+    ]
+  }
+}

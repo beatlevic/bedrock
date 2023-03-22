@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const logger = require('@bedrockio/logger');
+const { initialize } = require('../../src/utils/database');
+const { loadFixtures } = require('../../src/utils/fixtures');
+
+// Ensure models are loaded.
+require('../../src/models');
+
+(async () => {
+  await initialize();
+  const result = await loadFixtures();
+  if (!result) {
+    logger.info('No DB fixtures to load, database is populated');
+  } else {
+    logger.info('Done! Fixtures have been loaded.');
+  }
+  process.exit(0);
+})();

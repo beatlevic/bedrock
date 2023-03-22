@@ -1,0 +1,139 @@
+{
+  "attributes": {
+    "email": {
+      "type": "String",
+      "validate": "email",
+      "required": true,
+      "lowercase": true,
+      "trim": true
+    },
+    "roles": [
+      {
+        "role": {
+          "type": "String",
+          "required": true
+        },
+        "scope": {
+          "type": "String",
+          "required": true
+        },
+        "scopeRef": {
+          "type": "ObjectId",
+          "ref": "Organization"
+        }
+      }
+    ],
+    "firstName": {
+      "type": "String",
+      "required": true,
+      "trim": true
+    },
+    "lastName": {
+      "type": "String",
+      "required": true,
+      "trim": true
+    },
+    "timeZone": {
+      "type": "String"
+    },
+    "theme": {
+      "type": "String",
+      "enum": [
+        "dark",
+        "light",
+        "system"
+      ]
+    },
+    "isDeveloper": {
+      "type": "Boolean",
+      "default": false
+    },
+    "accessConfirmedAt": {
+      "type": "Date",
+      "writeAccess": "none"
+    },
+    "$private": {
+      "type": "Scope",
+      "readAccess": "none",
+      "writeAccess": "none",
+      "attributes": {
+        "hashedPassword": {
+          "type": "String"
+        },
+        "loginAttempts": {
+          "type": "Number",
+          "default": 0
+        },
+        "lastLoginAttemptAt": {
+          "type": "Date"
+        },
+        "tempTokenId": {
+          "type": "String"
+        }
+      }
+    },
+    "authInfo": {
+      "type": "Array",
+      "readAccess": "self",
+      "writeAccess": "none",
+      "attributes": {
+        "lastUsedAt": {
+          "type": "Date",
+          "required": true
+        },
+        "userAgent": {
+          "type": "String",
+          "required": false
+        },
+        "ip": {
+          "type": "String",
+          "required": true
+        },
+        "country": {
+          "type": "String"
+        },
+        "iat": {
+          "type": "Date",
+          "required": true
+        },
+        "jti": {
+          "type": "String",
+          "required": true
+        },
+        "exp": {
+          "type": "Date",
+          "required": true
+        }
+      }
+    },
+    "mfaMethod": {
+      "type": "String",
+      "enum": [
+        "sms",
+        "otp"
+      ]
+    },
+    "mfaBackupCodes": [
+      {
+        "type": "String"
+      }
+    ],
+    "mfaSecret": {
+      "type": "String",
+      "readAccess": "none",
+      "writeAccess": "none"
+    },
+    "mfaPhoneNumber": {
+      "type": "String",
+      "readAccess": "none",
+      "writeAccess": "none"
+    }
+  },
+  "search": {
+    "fields": [
+      "firstName",
+      "lastName",
+      "email"
+    ]
+  }
+}

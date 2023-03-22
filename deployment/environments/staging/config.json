@@ -1,0 +1,14 @@
+{
+  "gcloud": {
+    "envName": "staging",
+    "project": "beatlevic",
+    "gcrPrefix": "staging-",
+    "dropDeploymentPostfix": true,
+    "computeZone": "europe-west4-a",
+    "kubernetes": {
+      "clusterName": "cluster-1"
+    },
+    "label": "app",
+    "services": ["api", "web"]
+  }
+}

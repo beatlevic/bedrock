@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-cli
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-cli
+  template:
+    metadata:
+      labels:
+        app: api-cli
+    spec:
+      containers:
+        - image: gcr.io/beatlevic/bedrock-services-api-cli
+          imagePullPolicy: Always
+          name: api-cli
+          # resources:
+          #   limits:
+          #     cpu: "1000m"
+          #     memory: "4Gi"
+          env:
+            - name: ENV_NAME
+              value: "production"
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              value: "mongodb://mongo.data:27017/bedrock_production"
+            - name: APP_URL
+              value: "https://bedrock.beatlevic.com"
+            - name: ADMIN_EMAIL
+              value: "admin@beatlevic.com"
+            - name: ADMIN_PASSWORD
+              value: "Changeme-Super-Secret-Password"
+            - name: POSTMARK_FROM
+              value: "no-reply@beatlevic.com"
+            - name: UPLOADS_STORE
+              value: "gcs"
+            - name: UPLOADS_GCS_BUCKET
+              value: "beatlevic-production-uploads"
+            - name: JWT_SECRET
+              value: Ia3pbxUWEcgngAuwg01whatasdlfkjsadf
+            - name: POSTMARK_API_KEY
+              value: ""
+            # The `bedrock cloud` command in the CLI will help with
+            # the creation and storing of secrets for production.
+            # - name: JWT_SECRET
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: secrets
+            #       key: JWT_SECRET
+            # - name: POSTMARK_API_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: secrets
+            #       key: POSTMARK_API_KEY

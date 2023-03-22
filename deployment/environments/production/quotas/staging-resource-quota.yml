@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: staging-resource-quota
+  namespace: staging
+spec:
+  hard:
+    cpu: "2"
+    memory: 4Gi
+    pods: "20"

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-jobs
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-jobs
+  template:
+    metadata:
+      labels:
+        app: api-jobs
+    spec:
+      containers:
+        - image: gcr.io/beatlevic/staging-bedrock-services-api-jobs
+          imagePullPolicy: Always
+          name: api-jobs
+          # resources:
+          #   limits:
+          #     cpu: "1000m"
+          #     memory: "4Gi"
+          command:
+            - /service/scripts/entrypoints/jobs.sh
+          args:
+            - /service/jobs/default.yml
+          env:
+            - name: ENV_NAME
+              value: "staging"
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              value: "mongodb://mongo.data:27017/bedrock_staging"
+            - name: POSTMARK_FROM
+              value: "no-reply@beatlevic.dev"
+            - name: POSTMARK_API_KEY
+              value: ""

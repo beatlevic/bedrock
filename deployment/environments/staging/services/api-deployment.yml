@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: staging
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - image: gcr.io/beatlevic/staging-bedrock-services-api
+          imagePullPolicy: Always
+          name: api
+          env:
+            - name: ENV_NAME
+              value: staging
+            - name: NODE_ENV
+              value: production
+            - name: MONGO_URI
+              value: mongodb://mongo.data:27017/bedrock_staging
+            - name: JWT_SECRET
+              value: OFa5nbkrncjtod3Xqt+LStyBkmTWS/bsZlqYfKsd
+            - name: APP_URL
+              value: https://bedrock.beatlevic.dev
+            - name: POSTMARK_FROM
+              value: no-reply@beatlevic.dev
+            - name: POSTMARK_API_KEY
+              value: abc
+            - name: UPLOADS_STORE
+              value: gcs
+            - name: UPLOADS_GCS_BUCKET
+              value: beatlevic-staging-uploads
+            - name: LOG_LEVEL
+              value: debug
+          ports:
+            - name: http-server
+              containerPort: 2300
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+            httpGet:
+              path: /1/status/mongodb
+              port: 2300
+          livenessProbe:
+            httpGet:
+              path: /1/status/mongodb
+              port: 2300
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2

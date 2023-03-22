@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: production
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - image: gcr.io/beatlevic/bedrock-services-api
+          imagePullPolicy: Always
+          name: api
+          env:
+            - name: ENV_NAME
+              value: production
+            - name: NODE_ENV
+              value: production
+            - name: MONGO_URI
+              value: mongodb://mongo.data:27017/bedrock_production
+            - name: APP_URL
+              value: https://bedrock.beatlevic.com
+            - name: POSTMARK_FROM
+              value: no-reply@beatlevic.com
+            - name: UPLOADS_STORE
+              value: gcs
+            - name: UPLOADS_GCS_BUCKET
+              value: beatlevic-production-uploads
+            - name: LOG_LEVEL
+              value: debug
+            - name: JWT_SECRET
+              value: Ia3pbxUWEcgngAuwg01whatasdlfkjsadf
+            - name: POSTMARK_API_KEY
+              value: ""
+          ports:
+            - name: http-server
+              containerPort: 2300
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+            httpGet:
+              path: /1/status/mongodb
+              port: 2300
+          livenessProbe:
+            httpGet:
+              path: /1/status/mongodb
+              port: 2300
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2

@@ -1,0 +1,8 @@
+{
+  "name": "Product 4",
+  "images": [
+    "image.jpg"
+  ],
+  "priceUsd": 50,
+  "shop": "demo"
+}

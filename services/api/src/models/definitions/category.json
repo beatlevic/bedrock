@@ -1,0 +1,14 @@
+{
+  "attributes": {
+    "name": {
+      "type": "String",
+      "trim": true,
+      "required": true
+    }
+  },
+  "search": {
+    "fields": [
+      "name"
+    ]
+  }
+}

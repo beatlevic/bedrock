@@ -1,0 +1,47 @@
+{
+  "attributes": {
+    "name": {
+      "type": "String",
+      "trim": true,
+      "required": true
+    },
+    "description": {
+      "type": "String",
+      "trim": true,
+      "required": false,
+      "text": true
+    },
+    "isFeatured": {
+      "type": "Boolean"
+    },
+    "priceUsd": {
+      "type": "Number",
+      "currency": true
+    },
+    "expiresAt": {
+      "type": "Date",
+      "time": true
+    },
+    "sellingPoints": [
+      {
+        "type": "String"
+      }
+    ],
+    "shop": {
+      "ref": "Shop",
+      "type": "ObjectId",
+      "required": true
+    },
+    "images": [
+      {
+        "type": "ObjectId",
+        "ref": "Upload"
+      }
+    ]
+  },
+  "search": {
+    "fields": [
+      "name"
+    ]
+  }
+}
